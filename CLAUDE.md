@@ -16,7 +16,7 @@ remotion-studio/
 │   ├── audio/                   # Shared SFX + music collection
 │   └── assets/                  # Logos, screenshots, icons
 ├── out/                         # Rendered videos (gitignored)
-└── .claude/skills/              # Remotion official skills (symlinked)
+└── .claude/skills/              # Official Remotion skills + custom video production skills
 ```
 
 ## Adding a New Project
@@ -26,11 +26,24 @@ remotion-studio/
 3. Register in `Root.tsx` inside a `<Folder name="<project-name>">` block
 4. Project-specific assets go in `public/assets/<project-name>/`
 
-## Remotion Skills
+## Skills
 
-Official Remotion skills are installed at `.agents/skills/remotion-best-practices/`.
-Always reference "use remotion best practices" when prompting for video work.
+### Official Remotion Skills
+Installed at `.claude/skills/remotion-best-practices/` (from `remotion-dev/skills`).
 39 rule files cover: animations, audio, 3D, transitions, captions, SFX, charts, etc.
+Always reference "use remotion best practices" when prompting for video work.
+
+### Custom Video Production Skills
+Our own skills for the full video production pipeline:
+
+| Skill | Purpose |
+|-------|---------|
+| `remotion-video` | Build Remotion compositions from a script |
+| `video-render` | Render compositions with optimal settings |
+| `video-review` | QA compositions before rendering |
+| `video-assets` | Generate visual assets (mockups, diagrams, screenshots) |
+| `video-script` | Write scene-by-scene scripts with timing and direction |
+| `video-copy` | Write on-screen text and narration for scenes |
 
 ## Conventions
 
