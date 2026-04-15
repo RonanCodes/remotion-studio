@@ -14,11 +14,29 @@ import { PromoV6 } from "./projects/llm-wiki/PromoV6";
 import { PromoV7 } from "./projects/llm-wiki/PromoV7";
 import { PromoV8 } from "./projects/llm-wiki/PromoV8";
 import { PromoV9 } from "./projects/llm-wiki/PromoV9";
+import { PromoV10 } from "./projects/llm-wiki/PromoV10";
+import { KineticPitch } from "./projects/llm-wiki/KineticPitch";
 
 export const RemotionRoot: React.FC = () => {
   return (
     <>
       <Folder name="llm-wiki">
+        <Composition
+          id="KineticPitch"
+          component={KineticPitch}
+          durationInFrames={940} // ~31s at 30fps
+          fps={30}
+          width={1920}
+          height={1080}
+        />
+        <Composition
+          id="PromoV10"
+          component={PromoV10}
+          durationInFrames={1680} // 56s at 30fps
+          fps={30}
+          width={1920}
+          height={1080}
+        />
         <Composition
           id="PromoV9"
           component={PromoV9}
