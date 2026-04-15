@@ -24,7 +24,7 @@ export const RemotionRoot: React.FC = () => {
         <Composition
           id="KineticPitch"
           component={KineticPitch}
-          durationInFrames={940} // ~31s at 30fps
+          durationInFrames={970} // ~32s at 30fps
           fps={30}
           width={1920}
           height={1080}
