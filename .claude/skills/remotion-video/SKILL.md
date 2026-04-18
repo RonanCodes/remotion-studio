@@ -12,7 +12,7 @@ Build professional Remotion video compositions from a `video-script.json`. Creat
 ## Usage
 
 ```
-/remotion-video --from-script llm-wiki   # Build compositions from video-script.json
+/remotion-video --from-script my-project   # Build compositions from video-script.json
 /remotion-video --scaffold my-project    # Scaffold a new Remotion project + build
 /remotion-video my-project               # Auto-detect: use script if exists, else scaffold
 ```

@@ -9,41 +9,39 @@ npm install
 npm run dev          # Open Remotion Studio (preview + hot reload)
 ```
 
-Render a composition:
+List available compositions and render one:
 
 ```bash
-npx remotion render PromoV9 out/promo-v9.mp4
+npm run compositions              # see what's registered
+npx remotion render <id> out/<id>.mp4
 ```
 
 ## How It Works
 
-Each project gets its own folder under `src/projects/`. Compositions are grouped by `<Folder>` in Remotion Studio. Shared components, styles, and a professional SFX library are available across all projects.
+Each project lives in its own folder under `src/projects/` as an independent git repo. `src/Root.tsx` auto-discovers every `src/projects/*/register.tsx` at build time — drop a project in, it appears in the studio.
 
 ```
 src/
-├── Root.tsx                  # All compositions, organized by Folder
-├── projects/
-│   └── llm-wiki/             # LLM Wiki promo videos (15 compositions)
+├── Root.tsx                  # Auto-discovers projects via register.tsx
+├── projects/                 # Cloned project repos (gitignored)
+│   └── <project-name>/       # Each project brings its own register.tsx
 ├── components/               # Shared (Typewriter, Terminal, etc.)
 └── styles/                   # Shared design tokens
 
 public/
 ├── audio/                    # SFX + music collection (100+ sounds)
-└── assets/                   # Logos, screenshots, icons
+└── assets/                   # Logos, icons
 ```
 
 ## Projects
 
-| Project | Compositions | Description |
-|---------|-------------|-------------|
-| llm-wiki | 15 | Marketing promos and app demos for [LLM Wiki](https://github.com/RonanCodes/llm-wiki) |
+This scaffold ships empty — clone the projects you want into `src/projects/`. See [`src/projects/README.md`](src/projects/README.md) for how to add a project or create a new one.
 
-## Adding a New Project
+Example projects using this scaffold:
 
-1. Create `src/projects/<project-name>/`
-2. Build your compositions as React components
-3. Register them in `Root.tsx` inside a `<Folder name="<project-name>">` block
-4. Project-specific assets go in `public/assets/<project-name>/`
+| Repo | Description |
+|------|-------------|
+| [remotion-studio-llm-wiki](https://github.com/RonanCodes/remotion-studio-llm-wiki) | Marketing promos and app demos for [LLM Wiki](https://github.com/RonanCodes/llm-wiki) |
 
 ## Tech Stack
 

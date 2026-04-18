@@ -4,9 +4,8 @@
   "description": "Programmatic video production studio — multi-project Remotion workspace",
   "scripts": {
     "dev": "npx remotion studio",
-    "render:marketing": "npx remotion render src/index.ts MarketingPromo out/marketing-promo.mp4",
-    "render:demo": "npx remotion render src/index.ts AppDemo out/app-demo.mp4",
-    "render:all": "npm run render:marketing && npm run render:demo"
+    "render": "npx remotion render",
+    "compositions": "npx remotion compositions"
   },
   "keywords": [],
   "author": "Ronan Connolly",

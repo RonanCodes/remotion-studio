@@ -12,9 +12,9 @@ Write a structured video script with scene-by-scene breakdown, timing, narration
 ## Usage
 
 ```
-/video-script llm-wiki --promo     # 60-90s promotional video
-/video-script llm-wiki --demo      # 2-3min walkthrough/demo
-/video-script my-app               # Defaults to --promo
+/video-script my-app --promo     # 60-90s promotional video
+/video-script my-app --demo      # 2-3min walkthrough/demo
+/video-script my-app             # Defaults to --promo
 ```
 
 ## Step 1: Research the Project
