@@ -3,6 +3,18 @@ out/
 dist/
 .DS_Store
 
+# Local overrides (not committed)
+*.local.*
+*.local/
+
+# Playwright MCP (browser automation local state)
+.playwright-mcp/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
 # Project repos are cloned into src/projects/ individually.
 # Keep only the README explaining how to add projects.
 src/projects/*
