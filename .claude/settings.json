@@ -1,0 +1,14 @@
+{
+  "extraKnownMarketplaces": {
+    "ronan-skills": {
+      "source": {
+        "source": "github",
+        "repo": "RonanCodes/ronan-skills"
+      },
+      "autoUpdate": true
+    }
+  },
+  "enabledPlugins": {
+    "ro@ronan-skills": true
+  }
+}
