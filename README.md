@@ -18,14 +18,16 @@ npx remotion render <id> out/<id>.mp4
 
 ## How It Works
 
-Each project lives in its own folder under `src/projects/` as an independent git repo. `src/Root.tsx` auto-discovers every `src/projects/*/register.tsx` at build time — drop a project in, it appears in the studio.
+Each project lives in its own folder under `src/projects/` — either bundled in this repo or cloned in as a separate git repo. `src/Root.tsx` auto-discovers every `src/projects/*/register.tsx` at build time — drop a project in, it appears in the studio.
 
 ```
 src/
 ├── Root.tsx                  # Auto-discovers projects via register.tsx
-├── projects/                 # Cloned project repos (gitignored)
-│   └── <project-name>/       # Each project brings its own register.tsx
-├── components/               # Shared (Typewriter, Terminal, etc.)
+├── projects/
+│   └── showcase/             # Bundled — 12-effect flagship reel
+├── components/
+│   ├── effects/              # 12 reusable effect primitives
+│   └── *.tsx                 # Typewriter, Terminal, etc.
 └── styles/                   # Shared design tokens
 
 public/
@@ -33,15 +35,32 @@ public/
 └── assets/                   # Logos, icons
 ```
 
-## Projects
+## Bundled Showcase
 
-This scaffold ships empty — clone the projects you want into `src/projects/`. See [`src/projects/README.md`](src/projects/README.md) for how to add a project or create a new one.
+Render the flagship effects reel (9:16, 38s) — showcases all 12 primitives in `src/components/effects/`:
 
-Example projects using this scaffold:
+```bash
+npx remotion render Showcase out/showcase.mp4
+```
+
+## Reusable Effects
+
+Import any primitive from `src/components/effects/` into your own project:
+
+```tsx
+import { GlitchText, MatrixRain, Card3DFlip } from "@/components/effects";
+```
+
+Available: `SlantedTerminal`, `GlitchText`, `MatrixRain`, `ParticleBurst`, `Card3DFlip`, `LiquidWave`, `ShineSweep`, `ChromaticAberration`, `ParallaxDepth`, `SpringCounter`, `SVGTurbulence`, `FilmGrain`.
+
+## Adding Your Own Project
+
+Clone or scaffold a new project into `src/projects/` — see [`src/projects/README.md`](src/projects/README.md). Anything outside the bundled `showcase` folder is gitignored, so your project can be its own independent repo.
+
+Example:
 
 | Repo | Description |
 |------|-------------|
-| [remotion-studio-showcase](https://github.com/RonanCodes/remotion-studio-showcase) | 9:16 effects reel — 12 Remotion techniques in 38 seconds |
 | [remotion-studio-llm-wiki](https://github.com/RonanCodes/remotion-studio-llm-wiki) | Marketing promos and app demos for [LLM Wiki](https://github.com/RonanCodes/llm-wiki) |
 
 ## Tech Stack

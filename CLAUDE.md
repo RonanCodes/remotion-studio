@@ -8,26 +8,38 @@ Multi-project Remotion workspace for programmatic video production.
 remotion-studio/
 ├── src/
 │   ├── Root.tsx                  # Auto-discovers src/projects/*/register.tsx
-│   ├── projects/                 # Cloned project repos (gitignored)
-│   │   └── <project-name>/       # Each brings its own register.tsx
-│   ├── components/              # Shared components (Typewriter, Terminal)
-│   └── styles/                  # Shared design tokens
+│   ├── projects/
+│   │   └── showcase/             # Bundled flagship reel (tracked)
+│   ├── components/
+│   │   ├── effects/              # 12 reusable effect primitives
+│   │   └── *.tsx                 # Typewriter, Terminal, FeatureRow, WordReveal
+│   └── styles/                   # Shared design tokens
 ├── public/
-│   ├── audio/                   # Shared SFX + music collection
-│   └── assets/                  # Logos, icons
-├── out/                         # Rendered videos (gitignored)
-└── .claude/skills/              # Official Remotion skills + custom video production skills
+│   ├── audio/                    # Shared SFX + music collection
+│   └── assets/                   # Logos, icons
+├── out/                          # Rendered videos (gitignored)
+└── .claude/skills/               # Official Remotion skills + custom video production skills
 ```
 
 ## Adding a New Project
 
-`src/projects/*` is gitignored — each project is its own git repo cloned into the folder.
+The bundled `src/projects/showcase/` is tracked. Everything else under `src/projects/*` is gitignored — add projects as independent git repos cloned into the folder.
 
 1. Clone (or create) a project repo at `src/projects/<project-name>/`
 2. Ensure it has a `register.tsx` exporting a `Register` component that wraps its `<Composition>` entries in a `<Folder name="<project-name>">`
 3. That's it — auto-discovery picks it up on next `npm run dev`
 
 See `src/projects/README.md` for clone commands and a starter `register.tsx` template.
+
+## Reusable Effects
+
+`src/components/effects/` ships 12 ready-to-use animated primitives that any project (bundled or external) can import:
+
+```tsx
+import { GlitchText, MatrixRain, Card3DFlip } from "../../components/effects";
+```
+
+Available: `SlantedTerminal`, `GlitchText`, `MatrixRain`, `ParticleBurst`, `Card3DFlip`, `LiquidWave`, `ShineSweep`, `ChromaticAberration`, `ParallaxDepth`, `SpringCounter`, `SVGTurbulence`, `FilmGrain`. The bundled showcase project composes all 12.
 
 ## Skills
 

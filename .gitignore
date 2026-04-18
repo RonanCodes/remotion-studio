@@ -16,6 +16,7 @@ dist/
 .env.*.local
 
 # Project repos are cloned into src/projects/ individually.
-# Keep only the README explaining how to add projects.
+# Bundled projects (showcase) and the README are tracked.
 src/projects/*
 !src/projects/README.md
+!src/projects/showcase
