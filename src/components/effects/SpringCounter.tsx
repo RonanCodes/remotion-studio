@@ -13,7 +13,8 @@ export const SpringCounter: React.FC<Props> = ({
   const progress = spring({
     frame,
     fps: 30,
-    config: { damping: 11, stiffness: 70 },
+    config: { damping: 18, stiffness: 90 },
+    durationInFrames: 50,
   });
   const value = Math.floor(progress * target);
 

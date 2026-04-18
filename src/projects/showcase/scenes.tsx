@@ -189,6 +189,147 @@ export const Outro: React.FC = () => {
   );
 };
 
+export const IntroV2: React.FC = () => {
+  const frame = useCurrentFrame();
+  const scale = spring({
+    frame,
+    fps: 30,
+    config: { damping: 18, stiffness: 120, overshootClamping: true },
+    durationInFrames: 40,
+  });
+  const titleOpacity = interpolate(frame, [0, 14], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+  const subOpacity = interpolate(frame, [24, 44], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+  const barWidth = interpolate(frame, [20, 50], [0, 260], {
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <AbsoluteFill
+      style={{
+        background: "#0a0a14",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 60,
+        fontFamily: "'Inter', system-ui, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          fontSize: 180,
+          fontWeight: 900,
+          letterSpacing: -8,
+          lineHeight: 0.95,
+          color: "white",
+          textAlign: "center",
+          transform: `scale(${0.85 + scale * 0.15})`,
+          opacity: titleOpacity,
+        }}
+      >
+        EFFECTS
+        <br />
+        REEL
+      </div>
+      <div
+        style={{
+          marginTop: 48,
+          width: barWidth,
+          height: 6,
+          background: "linear-gradient(90deg, #e0af40, #ff2a6d)",
+          borderRadius: 3,
+        }}
+      />
+      <div
+        style={{
+          marginTop: 40,
+          fontSize: 34,
+          color: "#8a8a9e",
+          textAlign: "center",
+          opacity: subOpacity,
+          letterSpacing: 2,
+        }}
+      >
+        12 techniques · pure React
+      </div>
+    </AbsoluteFill>
+  );
+};
+
+export const OutroV2: React.FC = () => {
+  const frame = useCurrentFrame();
+  const logoScale = spring({
+    frame,
+    fps: 30,
+    config: { damping: 14, stiffness: 120, overshootClamping: true },
+    durationInFrames: 30,
+  });
+  const showLine = interpolate(frame, [14, 26], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+  const showUrl = interpolate(frame, [28, 44], [0, 1], {
+    extrapolateRight: "clamp",
+  });
+
+  return (
+    <AbsoluteFill
+      style={{
+        background: "#0a0a14",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: 60,
+        fontFamily: "'Inter', system-ui, sans-serif",
+      }}
+    >
+      <div
+        style={{
+          fontSize: 46,
+          color: "#8a8a9e",
+          letterSpacing: 8,
+          fontWeight: 500,
+          textAlign: "center",
+          textTransform: "uppercase",
+          opacity: showLine,
+        }}
+      >
+        Built with
+      </div>
+      <div
+        style={{
+          fontSize: 220,
+          fontWeight: 900,
+          letterSpacing: -8,
+          marginTop: 16,
+          textAlign: "center",
+          transform: `scale(${0.7 + logoScale * 0.3})`,
+          background:
+            "linear-gradient(135deg, #5bbcd6 0%, #e0af40 50%, #ff2a6d 100%)",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          WebkitTextFillColor: "transparent",
+          lineHeight: 1,
+        }}
+      >
+        Remotion
+      </div>
+      <div
+        style={{
+          marginTop: 80,
+          fontSize: 32,
+          fontFamily: "'JetBrains Mono', monospace",
+          color: "#7dcea0",
+          opacity: showUrl,
+          textAlign: "center",
+        }}
+      >
+        github.com/RonanCodes/remotion-studio
+      </div>
+    </AbsoluteFill>
+  );
+};
+
 export type Effect = {
   title: string;
   code: string;
