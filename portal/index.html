@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Remotion Studio — Project Portal</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #0b0f14; color: #e2e8f0; min-height: 100vh; }
+
+  .header { padding: 3.5rem 2rem 2.5rem; text-align: center; border-bottom: 1px solid #1e293b; }
+  .header h1 { font-size: 2.6rem; margin-bottom: 0.5rem; }
+  .header h1 .gold { color: #e0af40; }
+  .header h1 .cyan { color: #5bbcd6; }
+  .header p { color: #64748b; font-size: 1.05rem; max-width: 640px; margin: 0 auto; line-height: 1.6; }
+
+  .stats { display: flex; justify-content: center; gap: 3.5rem; padding: 2rem; border-bottom: 1px solid #1e293b; flex-wrap: wrap; }
+  .stat { text-align: center; }
+  .stat-num { color: #e0af40; font-size: 2.2rem; font-weight: 700; }
+  .stat-label { color: #64748b; font-size: 0.8rem; margin-top: 0.25rem; }
+
+  .section { max-width: 1200px; margin: 0 auto; padding: 2.5rem 2rem 1rem; }
+  .section h2 { color: #f8fafc; font-size: 1.5rem; margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.5rem; }
+  .section h2 .icon { font-size: 1.3rem; }
+  .section .subtitle { color: #64748b; font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem 2rem; }
+
+  .card { background: #1e293b; border-radius: 16px; padding: 1.75rem; border: 1px solid #334155; transition: all 0.25s; text-decoration: none; color: inherit; display: block; }
+  .card:hover { border-color: #5bbcd6; transform: translateY(-3px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
+  .card h3 { color: #f8fafc; font-size: 1.2rem; margin-bottom: 0.4rem; }
+  .card .tag { display: inline-block; background: #0b0f14; padding: 0.2rem 0.6rem; border-radius: 5px; font-size: 0.7rem; font-weight: 600; color: #5bbcd6; margin-bottom: 0.6rem; }
+  .card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; }
+  .card-meta { display: flex; gap: 1.5rem; margin-top: 1rem; flex-wrap: wrap; }
+  .card-meta span { color: #64748b; font-size: 0.78rem; }
+  .card-meta .val { color: #e0af40; font-weight: 600; }
+
+  /* Video grid — wider cards, 2 columns */
+  .video-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.25rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem 2rem; }
+
+  .video-card { background: #1e293b; border-radius: 12px; padding: 1.25rem 1.5rem; border: 1px solid #334155; transition: all 0.2s; display: flex; align-items: center; gap: 1.25rem; }
+  .video-card:hover { border-color: #334155; background: #253347; }
+  .video-card .play-icon { font-size: 2rem; flex-shrink: 0; }
+  .video-card .info { flex: 1; min-width: 0; }
+  .video-card .name { color: #f8fafc; font-size: 1rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .video-card .details { color: #64748b; font-size: 0.78rem; margin-top: 0.2rem; }
+  .video-card .details .dur { color: #7dcea0; }
+  .video-card .details .size { color: #94a3b8; }
+
+  /* Effects library */
+  .effect-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; max-width: 1200px; margin: 0 auto; padding: 0 2rem 2rem; }
+  .chip { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 0.5rem 1rem; font-size: 0.82rem; color: #94a3b8; }
+  .chip .fx-name { color: #e0af40; font-weight: 600; }
+
+  .footer { text-align: center; padding: 3rem 2rem; color: #334155; font-size: 0.85rem; border-top: 1px solid #1e293b; margin-top: 2rem; }
+  .footer code { color: #475569; background: #1e293b; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.8rem; }
+
+  @media (max-width: 700px) {
+    .stats { gap: 1.5rem; }
+    .grid, .video-grid { grid-template-columns: 1fr; }
+    .header h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="gold">Remotion</span> <span class="cyan">Studio</span></h1>
+  <p>Multi-project Remotion workspace for programmatic video production. Browse projects, rendered videos, and reusable effects.</p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-num">2</div><div class="stat-label">Projects</div></div>
+  <div class="stat"><div class="stat-num">19</div><div class="stat-label">Videos Rendered</div></div>
+  <div class="stat"><div class="stat-num">12</div><div class="stat-label">Effect Primitives</div></div>
+  <div class="stat"><div class="stat-num">140+</div><div class="stat-label">Audio Assets</div></div>
+</div>
+
+<!-- Projects Section -->
+<div class="section">
+  <h2><span class="icon">📂</span> Projects</h2>
+  <div class="subtitle">Each project is a collection of Remotion compositions. The showcase is bundled; others are external repos.</div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h3>Showcase — Effects Reel</h3>
+    <span class="tag">BUNDLED</span>
+    <p>Flagship reel demonstrating all 12 reusable effect primitives — slanted terminal, glitch text, matrix rain, particle burst, 3D card flip, and more.</p>
+    <div class="card-meta">
+      <span><span class="val">12</span> effects</span>
+      <span><span class="val">38s</span> duration</span>
+      <span><span class="val">1080×1920</span> vertical</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>LLM Wiki — Promo Videos</h3>
+    <span class="tag">EXTERNAL REPO</span>
+    <p>Marketing and promotional videos for the LLM Wiki project. 17+ compositions covering product demos, kinetic pitches, story-driven promos, and app demos.</p>
+    <div class="card-meta">
+      <span><span class="val">17</span> compositions</span>
+      <span><span class="val">V2–V10</span> versions</span>
+      <span><span class="val">30–90s</span> range</span>
+    </div>
+  </div>
+</div>
+
+<!-- Rendered Videos Section -->
+<div class="section">
+  <h2><span class="icon">🎬</span> Rendered Videos</h2>
+  <div class="subtitle">All rendered output from <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">out/</code> — click to play.</div>
+</div>
+
+<div class="video-grid">
+  <!-- Showcase -->
+  <div class="video-card">
+    <div class="play-icon">🎥</div>
+    <div class="info">
+      <div class="name">showcase.mp4</div>
+      <div class="details"><span class="dur">38.5s</span> · <span class="size">9.9 MB</span> · Effects reel</div>
+    </div>
+  </div>
+
+  <!-- Promo series -->
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v10.mp4</div>
+      <div class="details"><span class="dur">56s</span> · <span class="size">10 MB</span> · Latest promo</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v9-slaps.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">8.7 MB</span> · Confirmed good ✓</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v9.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">8.7 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v8.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">8.4 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v7.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">8.4 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v6.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">8.4 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v5.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">9.2 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v4.mp4</div>
+      <div class="details"><span class="dur">52s</span> · <span class="size">9.2 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v3-synth.mp4</div>
+      <div class="details"><span class="dur">53s</span> · <span class="size">9.2 MB</span> · Synth audio variant</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v3.mp4</div>
+      <div class="details"><span class="dur">53s</span> · <span class="size">9.2 MB</span></div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v2-light.mp4</div>
+      <div class="details"><span class="dur">60s</span> · <span class="size">15 MB</span> · Light mode variant</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">🎞️</div>
+    <div class="info">
+      <div class="name">promo-v2-dark.mp4</div>
+      <div class="details"><span class="dur">60s</span> · <span class="size">15 MB</span> · Dark mode variant</div>
+    </div>
+  </div>
+
+  <!-- Story series -->
+  <div class="video-card">
+    <div class="play-icon">📖</div>
+    <div class="info">
+      <div class="name">promo-a-forgetting.mp4</div>
+      <div class="details"><span class="dur">60s</span> · <span class="size">4.3 MB</span> · Story: the forgetting curve</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">📖</div>
+    <div class="info">
+      <div class="name">promo-b-regoogling.mp4</div>
+      <div class="details"><span class="dur">60s</span> · <span class="size">4.3 MB</span> · Story: re-googling everything</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">📖</div>
+    <div class="info">
+      <div class="name">promo-c-onecommand.mp4</div>
+      <div class="details"><span class="dur">60s</span> · <span class="size">4.1 MB</span> · Story: one command away</div>
+    </div>
+  </div>
+
+  <!-- Specials -->
+  <div class="video-card">
+    <div class="play-icon">🎤</div>
+    <div class="info">
+      <div class="name">KineticPitch.mp4</div>
+      <div class="details"><span class="dur">32s</span> · <span class="size">3.3 MB</span> · Kinetic typography pitch</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">📣</div>
+    <div class="info">
+      <div class="name">marketing-promo.mp4</div>
+      <div class="details"><span class="dur">30s</span> · <span class="size">2.1 MB</span> · Short marketing clip</div>
+    </div>
+  </div>
+
+  <div class="video-card">
+    <div class="play-icon">📱</div>
+    <div class="info">
+      <div class="name">app-demo.mp4</div>
+      <div class="details"><span class="dur">90s</span> · <span class="size">4.7 MB</span> · App walkthrough</div>
+    </div>
+  </div>
+</div>
+
+<!-- Effects Library Section -->
+<div class="section">
+  <h2><span class="icon">✨</span> Effect Primitives</h2>
+  <div class="subtitle">Reusable animated components in <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">src/components/effects/</code> — import into any project.</div>
+</div>
+
+<div class="effect-chips">
+  <div class="chip"><span class="fx-name">SlantedTerminal</span> — 3D perspective terminal with typing</div>
+  <div class="chip"><span class="fx-name">GlitchText</span> — RGB split with sin/cos offset</div>
+  <div class="chip"><span class="fx-name">MatrixRain</span> — Falling code columns</div>
+  <div class="chip"><span class="fx-name">ParticleBurst</span> — Spring-driven radial explosion</div>
+  <div class="chip"><span class="fx-name">Card3DFlip</span> — preserve-3d rotating card</div>
+  <div class="chip"><span class="fx-name">LiquidWave</span> — Sine-wave text distortion</div>
+  <div class="chip"><span class="fx-name">ShineSweep</span> — Gradient sweep highlight</div>
+  <div class="chip"><span class="fx-name">ChromaticAberration</span> — Screen-blend RGB orbs</div>
+  <div class="chip"><span class="fx-name">ParallaxDepth</span> — Multi-layer parallax with blur</div>
+  <div class="chip"><span class="fx-name">SpringCounter</span> — Physics-based number counter</div>
+  <div class="chip"><span class="fx-name">SVGTurbulence</span> — feTurbulence displacement warp</div>
+  <div class="chip"><span class="fx-name">FilmGrain</span> — Overlay noise with blend mode</div>
+</div>
+
+<!-- Audio Assets Section -->
+<div class="section">
+  <h2><span class="icon">🔊</span> Audio Library</h2>
+  <div class="subtitle">Professional SFX, music tracks, and sound design assets in <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">public/audio/</code>.</div>
+</div>
+
+<div class="grid">
+  <div class="card" style="cursor:default;">
+    <h3>Music Tracks</h3>
+    <span class="tag">6 TRACKS</span>
+    <p>Synthwave, ambient electronic, neon waves, and more. Kevin MacLeod royalty-free + custom generated tracks.</p>
+  </div>
+
+  <div class="card" style="cursor:default;">
+    <h3>Professional SFX</h3>
+    <span class="tag">70+ SOUNDS</span>
+    <p>Categorized: typing, transitions, impacts, notifications, node sounds, and appear effects.</p>
+  </div>
+
+  <div class="card" style="cursor:default;">
+    <h3>Kenney Packs</h3>
+    <span class="tag">3 PACKS</span>
+    <p>Digital audio, interface sounds, and UI audio from Kenney.nl — open-license game audio assets.</p>
+  </div>
+</div>
+
+<div class="footer">
+  <p>Remotion Studio · <code>npx remotion studio</code> to launch · <code>npx remotion render [id] out/file.mp4</code> to render</p>
+</div>
+
+</body>
+</html>
