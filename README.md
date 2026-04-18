@@ -41,6 +41,7 @@ Example projects using this scaffold:
 
 | Repo | Description |
 |------|-------------|
+| [remotion-studio-showcase](https://github.com/RonanCodes/remotion-studio-showcase) | 9:16 effects reel — 12 Remotion techniques in 38 seconds |
 | [remotion-studio-llm-wiki](https://github.com/RonanCodes/remotion-studio-llm-wiki) | Marketing promos and app demos for [LLM Wiki](https://github.com/RonanCodes/llm-wiki) |
 
 ## Tech Stack
