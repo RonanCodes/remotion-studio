@@ -17,7 +17,9 @@ remotion-studio/
 ├── public/
 │   ├── audio/                    # Shared SFX + music collection
 │   └── assets/                   # Logos, icons
-├── out/                          # Rendered videos (gitignored)
+├── out/                          # Rendered videos (gitignored), subfolders per project
+│   ├── showcase/                 # Showcase effects reel renders
+│   └── llm-wiki/                 # LLM Wiki promo/marketing renders
 └── .claude/skills/               # Official Remotion skills + custom video production skills
 ```
 
@@ -113,5 +115,5 @@ Categories: pro-typing-*, pro-node-*, pro-appear-*, pro-impact-*, pro-transition
 
 ### Rendering
 - Quick check: `npx remotion still [composition-id] --scale=0.25 --frame=30`
-- Full render: `npx remotion render [composition-id] out/filename.mp4 --log=error`
+- Full render: `npx remotion render [composition-id] out/<project>/filename.mp4 --log=error`
 - For transparent video: render to ProRes with alpha channel
