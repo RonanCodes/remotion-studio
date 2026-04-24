@@ -30,13 +30,37 @@ Before interviewing, scan the project to understand what it does:
 
 Ask these questions one at a time, adapting follow-ups based on answers:
 
-1. **Audience** — "Who is the target viewer? (developers, designers, PMs, general tech audience)"
-2. **Value prop** — "In one sentence, what problem does this solve and why should someone care?"
-3. **Hero feature** — "What's the single most impressive thing to show? The 'aha' moment?"
-4. **Supporting features** — "Name 2-3 other features worth highlighting (we'll pick max 3)."
-5. **Tone** — "What tone? (confident-technical, friendly-casual, cinematic-epic, minimal-clean)"
-6. **CTA** — "What should the viewer do after watching? (visit site, star repo, try it, sign up)"
-7. **Existing assets** — "Any screenshots, terminal recordings, or diagrams we can use?"
+1. **Target platform** — "Where will this primarily be posted? (LinkedIn, X/Twitter, YouTube Shorts, Instagram Reels, TikTok, YouTube landscape, multi-platform)" — this determines aspect ratio, see **Platform & Aspect Ratio Reference** below
+2. **Audience** — "Who is the target viewer? (developers, designers, PMs, general tech audience)"
+3. **Value prop** — "In one sentence, what problem does this solve and why should someone care?"
+4. **Hero feature** — "What's the single most impressive thing to show? The 'aha' moment?"
+5. **Supporting features** — "Name 2-3 other features worth highlighting (we'll pick max 3)."
+6. **Tone** — "What tone? (confident-technical, friendly-casual, cinematic-epic, minimal-clean)"
+7. **CTA** — "What should the viewer do after watching? (visit site, star repo, try it, sign up)"
+8. **Existing assets** — "Any screenshots, terminal recordings, or diagrams we can use?"
+
+### Platform & Aspect Ratio Reference
+
+Pick the resolution based on where the video primarily lives. Post to multiple platforms with a compromise ratio (1:1 or 4:5) unless the user commits to per-platform renders.
+
+| Platform | Best ratio | Pixels | Why |
+|----------|-----------|--------|-----|
+| **LinkedIn (mobile feed)** | **4:5 portrait** | **1080×1350** | LinkedIn's feed isn't vertical-native like TikTok; 9:16 is supported but underperforms. 4:5 maximises mobile screen space without cropping. 1:1 is a safer universal fallback |
+| LinkedIn (desktop-first) | 1:1 square | 1080×1080 | Top performer across desktop + mobile feed |
+| X / Twitter | 16:9 or 1:1 | 1920×1080 or 1080×1080 | 16:9 plays inline best; 1:1 gets more feed space on mobile |
+| YouTube (landscape) | 16:9 | 1920×1080 | Standard YouTube home |
+| YouTube Shorts | 9:16 | 1080×1920 | Vertical-native |
+| Instagram Reels | 9:16 | 1080×1920 | Vertical-native |
+| Instagram feed | 4:5 or 1:1 | 1080×1350 or 1080×1080 | 4:5 is the tallest allowed in feed |
+| TikTok | 9:16 | 1080×1920 | Vertical-native |
+| Multi-platform (one render) | 1:1 | 1080×1080 | Universal — no cropping anywhere, but gives up mobile screen space on LI/IG |
+
+**LinkedIn-specific gotchas:**
+- LinkedIn doesn't crop 9:16; it just displays smaller in the feed — users see less of the video without tapping
+- Videos autoplay muted: on-screen text and captions are mandatory
+- 4:5 is the sweet spot for LinkedIn mobile, where most views happen
+
+If the user says "LinkedIn" without specifying mobile vs desktop, default to **4:5 (1080×1350)** and confirm.
 
 For `--demo` mode, also ask:
 
@@ -138,7 +162,7 @@ Iterate until approved.
 2. **Micro-payoffs every 10-15s.** Something new, surprising, or satisfying must happen at regular intervals.
 3. **Design for muted viewing.** On-screen text is the primary channel — narration is supplementary. Every key message must be readable without audio.
 4. **3-5 features maximum.** More dilutes impact. Pick the most visually impressive ones.
-5. **Mobile safe zones.** All critical text/visuals must fit within: 150px from top, 170px from bottom, 60px from sides (at 1920x1080).
+5. **Mobile safe zones.** All critical text/visuals must fit within: 150px from top, 170px from bottom, 60px from sides (at 1920x1080). Scale proportionally for other ratios. LinkedIn + Instagram overlay username/caption on the bottom — reserve 180–240px at the bottom for portrait ratios.
 6. **Show, don't tell.** Prefer terminal recordings, UI screenshots, and live output over abstract descriptions.
 7. **End with one clear CTA.** Not three. One verb, one URL.
 8. **Time budget is strict.** Promo: 60-90s. Demo: 2-3min. Cut ruthlessly to stay in bounds.

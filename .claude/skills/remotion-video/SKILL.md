@@ -331,6 +331,72 @@ Report any errors and fix before considering the build complete.
 8. **One component per scene file** in `src/scenes/`. Reusable animation components go in `src/components/`.
 9. **Duration math**: `durationInFrames = seconds * fps`. At 30fps: 1s = 30 frames, 5s = 150 frames, 60s = 1800 frames.
 
+## Validated Conventions (accumulated across projects)
+
+These are pacing/SFX/layout defaults that have been user-validated on past videos in this repo. Read before building a new composition — start from these and deviate only with reason.
+
+### Pacing defaults (30fps)
+
+| Scene role | Duration |
+|---|---|
+| Intro/hook | 60–90f (2–3s) |
+| Splash / brand reveal | 90–120f (3–4s) |
+| Product shot / feature demo | 170–240f (5–8s) — the money shot, linger here |
+| Transition filler (board, context) | 200–240f |
+| Outro / CTA | 90–120f (3–4s) |
+
+Full video target: **20–25s** for a social promo. Over 30s and feed scroll-through kills it.
+
+### Transition durations
+
+| Transition | Frames | When |
+|---|---|---|
+| `fade()` | 15 | Scene changes inside the same app/context |
+| `slide()` | 15 | Horizontal or directional moves |
+| `slide({ direction: "from-bottom" })` | 20 | App-switcher feel ("different app now") — use this when crossing contexts, it reads as iOS-style app push |
+| `wipe()` | 20–30 | Text-heavy scenes (fades overlap text badly) |
+
+### SFX recipes (validated)
+
+- **CTA sign-off chime:** `pro-notify-correct.mp3` at 0.38 + `pro-impact-bass-short.mp3` at 0.12–0.14, same `at=` frame. Bass adds body without muddying the chime. Stay ≤0.18 on bass — heavier than that drowns the chime. Confirmed 2026-04-24.
+- **Tile/card grid reveals:** `pro-appear-pop.mp3` at 0.2, staggered 10–15f apart. **First pop must coincide with first tile appearing** (not before). Last pop at the last tile's delay — creates a satisfying "all loaded" beat.
+- **App-switch impact:** `pro-impact-bass-short.mp3` at 0.14 on the first frame of the new scene — sells the context change.
+- **Zoom/depth push:** `showcase-v3-depth.mp3` at 0.2 over ~60f, starting on the zoom initiation frame.
+- **Music bed:** `kevin-macleod-deliberate-thought.mp3` at 0.36, 60f fade-in, 80f fade-out. Proven for neutral/friendly promo tone.
+
+See `memory/audio-preferences.md` for the preferred-SFX-by-role table (loaded automatically).
+
+### Aspect ratio playbook
+
+Layout rules vary by ratio. When building for a specific ratio, pull positions from here.
+
+#### 9:16 portrait (1080×1920) — **validated**
+Mobile-native ratio (IG Reels, TikTok, Shorts). Works on LinkedIn but underperforms vs 4:5.
+
+- Content vertically centered via flex usually works — prefer flex layout over fixed `top:` values
+- Reserve 150px top safe zone (status bars) and 180–240px bottom (captions/UI overlays on IG/LI)
+- Scene verticals can breathe — don't cram; use the height
+- Validated on `ConnectionsPromoV7Portrait` (2026-04-24)
+
+#### 4:5 portrait (1080×1350) — **preferred for LinkedIn feed**
+- 30% less vertical room than 9:16 — pixel values tuned for 1920 height will clip or look too sparse
+- **Hardcoded pixel positions are the enemy.** Use flex centering + responsive margins instead of fixed `top:` / `paddingTop:` values
+- Grid-heavy scenes (e.g. 4x4 word grid) need tile/gap recalibration or the bottom UI clips
+- Scene-by-scene port notes will accumulate here as we validate 4:5 layouts
+
+#### 1:1 square (1080×1080) — universal fallback
+- Safest for multi-platform posting
+- Cramped for tall UI mockups (long app screens) — consider cropping the mockup instead of shrinking
+
+### How to use this section
+
+Before building or porting a composition:
+1. Read the pacing + SFX recipes — don't re-derive them from scratch
+2. Check the aspect ratio subsection for the target ratio's rules
+3. After validation, **append newly-validated learnings here** (commit as part of the PR). This accumulates institutional knowledge — anyone cloning the repo gets the benefit
+
+Per-project specifics (which scenes, what copy, what SFX in what order for *this* video) live in `src/projects/<name>/retrospectives/`. The skill captures *general* conventions; retros capture *specific* renders.
+
 ## Licensing
 
 Remotion is free for individuals and companies with 3 or fewer employees. Larger companies need a license from remotion.pro. For the full Remotion API reference, install the official skills: `remotion-dev/skills`.

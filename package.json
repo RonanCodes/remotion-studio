@@ -4,8 +4,11 @@
   "description": "Programmatic video production studio — multi-project Remotion workspace",
   "scripts": {
     "dev": "npx remotion studio",
-    "render": "npx remotion render",
-    "compositions": "npx remotion compositions"
+    "render": "node scripts/render.mjs",
+    "render:raw": "npx remotion render",
+    "compositions": "npx remotion compositions",
+    "portal": "node scripts/generate-portal.mjs",
+    "audition": "node tools/audio-auditioner/serve.mjs"
   },
   "keywords": [],
   "author": "Ronan Connolly",

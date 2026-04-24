@@ -58,18 +58,18 @@ const SFX: React.FC<{
 
 /** Per-effect SFX — each effect gets its own unique sound */
 const EFFECT_SFX = [
-  "audio/showcase-v3-terminal.mp3",
-  "audio/showcase-v3-glitch.mp3",
-  "audio/showcase-v3-matrix.mp3",
-  "audio/showcase-v3-burst.mp3",
-  "audio/showcase-v3-flip.mp3",
-  "audio/showcase-v3-liquid.mp3",
-  "audio/showcase-v3-shine.mp3",
-  "audio/showcase-v3-chroma.mp3",
-  "audio/showcase-v3-depth.mp3",
-  "audio/showcase-v3-counter.mp3",
-  "audio/showcase-v3-turbulence.mp3",
-  "audio/showcase-v3-grain.mp3",
+  "audio/generated/showcase-v3-terminal.mp3",
+  "audio/generated/showcase-v3-glitch.mp3",
+  "audio/generated/showcase-v3-matrix.mp3",
+  "audio/generated/showcase-v3-burst.mp3",
+  "audio/generated/showcase-v3-flip.mp3",
+  "audio/generated/showcase-v3-liquid.mp3",
+  "audio/generated/showcase-v3-shine.mp3",
+  "audio/generated/showcase-v3-chroma.mp3",
+  "audio/generated/showcase-v3-depth.mp3",
+  "audio/generated/showcase-v3-counter.mp3",
+  "audio/generated/showcase-v3-turbulence.mp3",
+  "audio/generated/showcase-v3-grain.mp3",
 ];
 
 /**
@@ -142,7 +142,7 @@ export const ShowcaseV3: React.FC = () => {
 
       {/* ── Background music (slightly quieter to let SFX breathe) ── */}
       <Audio
-        src={staticFile("audio/music-neon-waves.mp3")}
+        src={staticFile("audio/music/music-neon-waves.mp3")}
         volume={(f) =>
           f < 45
             ? f / 45 // 1.5s fade in
@@ -154,7 +154,7 @@ export const ShowcaseV3: React.FC = () => {
 
       {/* ── Ambient: Intro hit ── */}
       <SFX
-        src="audio/showcase-v3-intro-hit.mp3"
+        src="audio/generated/showcase-v3-intro-hit.mp3"
         at={10}
         volume={0.6}
         duration={75}
@@ -162,7 +162,7 @@ export const ShowcaseV3: React.FC = () => {
 
       {/* ── Ambient: Tension riser (builds before first effect) ── */}
       <SFX
-        src="audio/showcase-v3-rise.mp3"
+        src="audio/generated/showcase-v3-rise.mp3"
         at={60}
         volume={0.3}
         duration={90}
@@ -181,7 +181,7 @@ export const ShowcaseV3: React.FC = () => {
 
       {/* ── Ambient: Outro chime ── */}
       <SFX
-        src="audio/showcase-v3-outro-chime.mp3"
+        src="audio/generated/showcase-v3-outro-chime.mp3"
         at={lastTransitionPoint + 20}
         volume={0.5}
         duration={60}

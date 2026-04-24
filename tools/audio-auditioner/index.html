@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Audio Auditioner</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #0f1115;
+        --surface: #1a1d24;
+        --surface-hi: #232730;
+        --text: #e8eaed;
+        --muted: #8a8f99;
+        --accent: #22c55e;
+        --active: #0ea5e9;
+        --border: #2a2f39;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif; }
+      body { min-height: 100vh; padding: 40px 48px 80px; }
+      header { max-width: 960px; margin: 0 auto 24px; }
+      h1 { font-size: 26px; margin: 0 0 4px; letter-spacing: -0.5px; }
+      .context { color: var(--muted); font-size: 14px; margin-bottom: 20px; }
+      .hint { color: var(--muted); font-size: 13px; margin-bottom: 24px; }
+      kbd { background: var(--surface-hi); border: 1px solid var(--border); border-radius: 4px;
+        padding: 2px 6px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+      .bg-bar { max-width: 960px; margin: 0 auto 28px; background: var(--surface);
+        border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px;
+        display: flex; align-items: center; gap: 14px; }
+      .bg-bar.empty { opacity: 0.4; }
+      .bg-btn { background: var(--accent); color: #000; border: none; border-radius: 6px;
+        padding: 8px 16px; font-weight: 700; font-size: 14px; cursor: pointer; }
+      .bg-btn.playing { background: #ef4444; color: #fff; }
+      .bg-meta { flex: 1; font-size: 13px; color: var(--muted); font-family: ui-monospace, Menlo, monospace; }
+      .bg-vol { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+      .bg-vol input { width: 100px; }
+      #list { max-width: 960px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+      .candidate { padding: 16px 18px; border-radius: 10px; background: var(--surface);
+        border: 1px solid var(--border); display: flex; align-items: center; gap: 16px;
+        cursor: pointer; transition: background 0.08s, border-color 0.08s; }
+      .candidate:hover { background: var(--surface-hi); }
+      .candidate.active { border-color: var(--active); }
+      .candidate.playing { background: rgba(34, 197, 94, 0.16); border-color: var(--accent); }
+      .num { width: 28px; text-align: right; font-family: ui-monospace, Menlo, monospace;
+        font-size: 13px; color: var(--muted); }
+      .meta { flex: 1; min-width: 0; }
+      .name { font-size: 16px; font-weight: 600; }
+      .desc { font-size: 13px; color: var(--muted); margin-top: 3px; }
+      .path { font-size: 11px; color: var(--muted); font-family: ui-monospace, Menlo, monospace;
+        margin-top: 4px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .duration { font-family: ui-monospace, Menlo, monospace; font-size: 13px; color: var(--muted);
+        background: var(--surface-hi); padding: 4px 10px; border-radius: 4px; }
+      .err { color: #ef4444; background: rgba(239,68,68,0.08);
+        border: 1px solid rgba(239,68,68,0.4); padding: 20px; border-radius: 10px;
+        max-width: 960px; margin: 0 auto; }
+      .chosen { max-width: 960px; margin: 24px auto 0; padding: 16px; border-radius: 10px;
+        background: var(--surface); border: 1px dashed var(--border); font-size: 13px; color: var(--muted); }
+      .chosen strong { color: var(--accent); }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1 id="title">Audio Auditioner</h1>
+      <div class="context" id="context"></div>
+      <div class="hint">
+        <kbd>Space</kbd> play next &nbsp;•&nbsp;
+        <kbd>↑</kbd>/<kbd>↓</kbd> move &nbsp;•&nbsp;
+        <kbd>Enter</kbd> replay &nbsp;•&nbsp;
+        <kbd>B</kbd> toggle BG music &nbsp;•&nbsp;
+        <kbd>S</kbd> stop &nbsp;•&nbsp;
+        <kbd>M</kbd> mark chosen
+      </div>
+    </header>
+
+    <div class="bg-bar empty" id="bgBar">
+      <button class="bg-btn" id="bgBtn" disabled>Play BG</button>
+      <div class="bg-meta" id="bgMeta">No BG music configured</div>
+      <label class="bg-vol">vol
+        <input type="range" id="bgVol" min="0" max="1" step="0.01" value="0.36" />
+        <span id="bgVolLabel">0.36</span>
+      </label>
+    </div>
+
+    <div id="list"></div>
+    <div class="chosen" id="chosen" hidden></div>
+
+    <script>
+      const fmt = (s) => {
+        if (!s || !isFinite(s)) return "—";
+        if (s < 10) return s.toFixed(2) + "s";
+        const m = Math.floor(s / 60);
+        const r = (s - m * 60).toFixed(1);
+        return m > 0 ? `${m}:${r.padStart(4, "0")}` : `${r}s`;
+      };
+
+      let candidates = [];
+      const audios = [];
+      let active = 0;
+      let playing = null;
+      let lastPlayed = null; // last index we started — space advances only after this matches active
+      let bgAudio = null;
+
+      async function load() {
+        const list = document.getElementById("list");
+        try {
+          const res = await fetch("./audition.local.json?_=" + Date.now());
+          if (!res.ok) throw new Error(res.statusText);
+          const data = await res.json();
+          document.getElementById("title").textContent = data.title || "Audio Auditioner";
+          document.getElementById("context").textContent = data.context || "";
+          candidates = data.candidates || [];
+          setupBg(data.bgMusic);
+          render();
+          candidates.forEach((c, i) => {
+            const a = new Audio(c.src);
+            a.preload = "metadata";
+            a.addEventListener("loadedmetadata", () => updateDuration(i, a.duration));
+            a.addEventListener("error", () => updateDuration(i, null, "load error"));
+            a.addEventListener("ended", () => {
+              if (playing === i) { playing = null; updateHighlight(); }
+            });
+            audios.push(a);
+          });
+        } catch (err) {
+          list.innerHTML = `<div class="err">
+            Couldn't load <code>audition.local.json</code><br/>
+            ${err.message || err}<br/><br/>
+            Create <code>tools/audio-auditioner/audition.local.json</code> with a
+            <code>candidates</code> array and reload.
+          </div>`;
+        }
+      }
+
+      function setupBg(bg) {
+        const bar = document.getElementById("bgBar");
+        const btn = document.getElementById("bgBtn");
+        const meta = document.getElementById("bgMeta");
+        const vol = document.getElementById("bgVol");
+        const volLabel = document.getElementById("bgVolLabel");
+        if (!bg || !bg.src) return;
+        bar.classList.remove("empty");
+        btn.disabled = false;
+        meta.textContent = bg.src + (bg.startAt ? `   @${bg.startAt}s` : "");
+        bgAudio = new Audio(bg.src);
+        bgAudio.loop = true;
+        bgAudio.volume = bg.volume ?? 0.36;
+        vol.value = bgAudio.volume;
+        volLabel.textContent = bgAudio.volume.toFixed(2);
+        if (bg.startAt) {
+          bgAudio.addEventListener("loadedmetadata", () => { bgAudio.currentTime = bg.startAt; }, { once: true });
+        }
+        vol.addEventListener("input", () => {
+          bgAudio.volume = parseFloat(vol.value);
+          volLabel.textContent = bgAudio.volume.toFixed(2);
+        });
+        btn.addEventListener("click", toggleBg);
+      }
+
+      function toggleBg() {
+        if (!bgAudio) return;
+        const btn = document.getElementById("bgBtn");
+        if (bgAudio.paused) {
+          bgAudio.play().then(() => { btn.textContent = "Pause BG"; btn.classList.add("playing"); });
+        } else {
+          bgAudio.pause();
+          btn.textContent = "Play BG";
+          btn.classList.remove("playing");
+        }
+      }
+
+      function updateDuration(i, sec, err) {
+        const els = document.querySelectorAll(".candidate");
+        if (!els[i]) return;
+        const d = els[i].querySelector(".duration");
+        if (d) d.textContent = err || fmt(sec);
+      }
+
+      function render() {
+        const list = document.getElementById("list");
+        list.innerHTML = candidates.map((c, i) => `
+          <div class="candidate" data-i="${i}">
+            <div class="num">${String(i + 1).padStart(2, " ")}</div>
+            <div class="meta">
+              <div class="name">${escapeHtml(c.name || c.src.split("/").pop())}</div>
+              ${c.desc ? `<div class="desc">${escapeHtml(c.desc)}</div>` : ""}
+              <div class="path">${escapeHtml(c.src)}</div>
+            </div>
+            <div class="duration">—</div>
+          </div>
+        `).join("");
+        list.querySelectorAll(".candidate").forEach((el) => {
+          el.addEventListener("click", () => {
+            active = +el.dataset.i;
+            play(active);
+            updateHighlight();
+          });
+        });
+        updateHighlight();
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+      }
+
+      function updateHighlight() {
+        document.querySelectorAll(".candidate").forEach((el, i) => {
+          el.classList.toggle("active", i === active);
+          el.classList.toggle("playing", i === playing);
+        });
+        const el = document.querySelectorAll(".candidate")[active];
+        if (el) el.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+
+      function stopCandidates() {
+        if (playing !== null && audios[playing]) {
+          audios[playing].pause();
+          audios[playing].currentTime = 0;
+        }
+        playing = null;
+      }
+
+      function play(i) {
+        stopCandidates();
+        const a = audios[i];
+        if (!a) return;
+        a.currentTime = 0;
+        a.play().then(() => { playing = i; lastPlayed = i; updateHighlight(); }).catch(() => {});
+      }
+
+      function markChosen() {
+        const c = candidates[active];
+        if (!c) return;
+        const el = document.getElementById("chosen");
+        el.hidden = false;
+        el.innerHTML = `Chosen → <strong>${escapeHtml(c.src)}</strong>${c.name ? ` (${escapeHtml(c.name)})` : ""}`;
+        console.log("CHOSEN:", c);
+      }
+
+      document.addEventListener("keydown", (e) => {
+        if (e.target.tagName === "INPUT") return;
+        if (e.code === "Space") { e.preventDefault();
+          // If the cursor moved since the last play, just play the active item.
+          // Otherwise advance to the next item and play it.
+          if (lastPlayed === active) {
+            active = (active + 1) % Math.max(candidates.length, 1);
+          }
+          updateHighlight(); play(active);
+        } else if (e.code === "ArrowDown") { e.preventDefault();
+          active = (active + 1) % Math.max(candidates.length, 1); updateHighlight();
+        } else if (e.code === "ArrowUp") { e.preventDefault();
+          active = (active - 1 + candidates.length) % Math.max(candidates.length, 1); updateHighlight();
+        } else if (e.code === "Enter") { e.preventDefault(); play(active);
+        } else if (e.code === "KeyS") { e.preventDefault(); stopCandidates(); updateHighlight();
+        } else if (e.code === "KeyB") { e.preventDefault(); toggleBg();
+        } else if (e.code === "KeyM") { e.preventDefault(); markChosen(); }
+      });
+
+      load();
+    </script>
+  </body>
+</html>

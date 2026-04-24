@@ -61,11 +61,15 @@ Our own skills for the full video production pipeline:
 | `video-assets` | Generate visual assets (mockups, diagrams, screenshots) |
 | `video-script` | Write scene-by-scene scripts with timing and direction |
 | `video-copy` | Write on-screen text and narration for scenes |
+| `project-retrospective` | Capture a timestamped retro when the user validates a render. Auto-triggers on "perfect", "that's great", "slaps", etc. Writes to `src/projects/<name>/retrospectives/YYYY-MM-DD-HHMM--<composition>.md`. |
 
 ## Conventions
 
 ### Versioning
 Always keep previous versions when iterating. Create a new file (PromoV10, PromoV11, etc.) — never overwrite. When a version is confirmed good, copy the render with a suffix: `promo-v9-slaps.mp4`.
+
+### Retrospectives
+Each project has a `retrospectives/` folder (`src/projects/<name>/retrospectives/`) that accumulates timestamped retros — one per validated render. A retro captures spec, scene structure, music + SFX choices, copy decisions, liked/disliked sounds, and process lessons. Use these on the next iteration or project to avoid re-learning. Trigger the `project-retrospective` skill when the user signs off on a render.
 
 ### Animation Primitives
 - Use `useCurrentFrame()` and `interpolate()` for all animations — never CSS transitions
@@ -115,5 +119,7 @@ Categories: pro-typing-*, pro-node-*, pro-appear-*, pro-impact-*, pro-transition
 
 ### Rendering
 - Quick check: `npx remotion still [composition-id] --scale=0.25 --frame=30`
-- Full render: `npx remotion render [composition-id] out/<project>/filename.mp4 --log=error`
+- Full render: `npm run render -- [composition-id] out/<project>/filename.mp4 --log=error`
+  - Wrapper inserts a `--YYYY-MM-DD-HHMM` stamp before the extension so successive renders don't overwrite previous ones (e.g. `promo-v5-portrait--2026-04-21-1705.mp4`).
+  - Use `npm run render:raw` to bypass the wrapper when you want to overwrite a specific file.
 - For transparent video: render to ProRes with alpha channel

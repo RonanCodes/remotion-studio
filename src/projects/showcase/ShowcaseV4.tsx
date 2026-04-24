@@ -133,7 +133,7 @@ export const ShowcaseV4: React.FC = () => {
       ))}
 
       <Audio
-        src={staticFile("audio/music-synthwave-tech.mp3")}
+        src={staticFile("audio/music/music-synthwave-tech.mp3")}
         volume={(f) =>
           f < 20
             ? (f / 20) * 0.22

@@ -8,7 +8,33 @@ All sounds are subtle, clean, and professional — suitable for Stripe/Linear/Ve
 
 ---
 
+## Folder Layout
+
+```
+public/audio/
+├── music/            long-form music beds (Kevin MacLeod, Duel of the Fates, etc.)
+├── sfx/
+│   ├── appear/       pro-appear-*       element reveals
+│   ├── impact/       pro-impact-*       title/stat emphasis
+│   ├── node/         pro-node-*         graph/connection sounds
+│   ├── notify/       pro-notify-*       success/notification tones
+│   ├── transition/   pro-transition-*   scene transitions
+│   ├── typing/       pro-typing-*, typing-*   keyboard/typing
+│   ├── chime/        chime-airplane-ding, chime-elevator-ding
+│   ├── whoosh/       whoosh-*
+│   └── kenney-raw/   sfx-* (unsorted Kenney UI kit files)
+├── kenney/           extracted Kenney kits + source zips
+├── generated/        ElevenLabs-generated SFX (per-showcase)
+└── disliked/         sounds excluded from use
+```
+
+When calling `staticFile()`, use the full path: `staticFile("audio/sfx/appear/pro-appear-click.mp3")`.
+
+---
+
 ## 1. Keyboard Typing
+
+**Path prefix:** `audio/sfx/typing/`
 
 Realistic keyboard sounds for terminal typing animations and code input sequences.
 
@@ -30,6 +56,8 @@ Realistic keyboard sounds for terminal typing animations and code input sequence
 ---
 
 ## 2. UI Transitions
+
+**Path prefix:** `audio/sfx/transition/`
 
 Subtle swooshes, sweeps, and slides for scene transitions and element movements.
 
@@ -57,6 +85,8 @@ Subtle swooshes, sweeps, and slides for scene transitions and element movements.
 
 ## 3. Notification / Success
 
+**Path prefix:** `audio/sfx/notify/` *(except `pro-notify-success.mp3` — moved to `audio/disliked/`)*
+
 Clean, minimal notification tones for success states, completion, and confirmations.
 
 | File | Duration | Description | Use Case |
@@ -83,6 +113,8 @@ Clean, minimal notification tones for success states, completion, and confirmati
 
 ## 4. Appearance / Reveal
 
+**Path prefix:** `audio/sfx/appear/`
+
 Subtle sounds for when UI elements materialize, pop in, or become visible.
 
 | File | Duration | Description | Use Case |
@@ -108,6 +140,8 @@ Subtle sounds for when UI elements materialize, pop in, or become visible.
 
 ## 5. Graph / Connection
 
+**Path prefix:** `audio/sfx/node/`
+
 Sounds for data visualization: nodes appearing, connections forming, graph animations.
 
 | File | Duration | Description | Use Case |
@@ -131,6 +165,8 @@ Sounds for data visualization: nodes appearing, connections forming, graph anima
 ---
 
 ## 6. Impact / Emphasis
+
+**Path prefix:** `audio/sfx/impact/`
 
 Subtle bass hits and thuds for title reveals, big text appearances, and emphasis moments.
 

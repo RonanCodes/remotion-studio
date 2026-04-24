@@ -10,6 +10,9 @@ dist/
 # Playwright MCP (browser automation local state)
 .playwright-mcp/
 
+# Claude Code runtime state
+.claude/scheduled_tasks.lock
+
 # Environment
 .env
 .env.local

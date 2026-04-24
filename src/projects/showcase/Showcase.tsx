@@ -84,7 +84,7 @@ export const Showcase: React.FC = () => {
       </TransitionSeries>
 
       <Audio
-        src={staticFile("audio/music-synthwave-tech.mp3")}
+        src={staticFile("audio/music/music-synthwave-tech.mp3")}
         volume={(f) =>
           f < 30
             ? f / 30

@@ -127,7 +127,7 @@ export const ShowcaseV2: React.FC = () => {
 
       {/* ── Background music ── */}
       <Audio
-        src={staticFile("audio/music-neon-waves.mp3")}
+        src={staticFile("audio/music/music-neon-waves.mp3")}
         volume={(f) =>
           f < 45
             ? f / 45 // 1.5s fade in
@@ -139,7 +139,7 @@ export const ShowcaseV2: React.FC = () => {
 
       {/* ── SFX: Intro impact ── */}
       <SFX
-        src="audio/showcase-v2-impact.mp3"
+        src="audio/generated/showcase-v2-impact.mp3"
         at={10}
         volume={0.6}
         duration={60}
@@ -149,7 +149,7 @@ export const ShowcaseV2: React.FC = () => {
       {TRANSITION_POINTS.slice(0, -1).map((frame, i) => (
         <SFX
           key={`whoosh-${i}`}
-          src="audio/showcase-v2-whoosh.mp3"
+          src="audio/generated/showcase-v2-whoosh.mp3"
           at={frame}
           volume={0.35}
           duration={45}
@@ -158,7 +158,7 @@ export const ShowcaseV2: React.FC = () => {
 
       {/* ── SFX: Outro chime ── */}
       <SFX
-        src="audio/showcase-v2-chime.mp3"
+        src="audio/generated/showcase-v2-chime.mp3"
         at={TRANSITION_POINTS[TRANSITION_POINTS.length - 1] + 15}
         volume={0.5}
         duration={60}

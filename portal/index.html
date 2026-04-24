@@ -60,6 +60,36 @@
     .grid, .video-grid { grid-template-columns: 1fr; }
     .header h1 { font-size: 1.8rem; }
   }
+
+  /* Asset browser (auto-generated from public/ + out/) */
+  .browser { max-width: 1200px; margin: 0 auto; padding: 0 2rem 2rem; }
+  .browser-search { width: 100%; background: #0f172a; color: #e2e8f0; border: 1px solid #334155;
+    border-radius: 8px; padding: 0.7rem 1rem; font-size: 0.92rem; margin-bottom: 1rem; font-family: inherit; }
+  .browser-search:focus { outline: none; border-color: #5bbcd6; }
+  details.folder { border: 1px solid #1e293b; border-radius: 10px; background: #101826; margin-bottom: 0.6rem; overflow: hidden; }
+  details.folder[open] { border-color: #334155; }
+  details.folder summary { cursor: pointer; padding: 0.7rem 1rem; font-weight: 600; color: #cbd5e1;
+    display: flex; align-items: center; gap: 0.5rem; list-style: none; user-select: none; }
+  details.folder summary::-webkit-details-marker { display: none; }
+  details.folder summary .arrow { color: #64748b; font-size: 0.75rem; transition: transform 0.15s; }
+  details.folder[open] summary .arrow { transform: rotate(90deg); }
+  details.folder summary .count { color: #64748b; font-weight: 400; font-size: 0.82rem; margin-left: auto; }
+  details.folder summary:hover { background: #152033; }
+  .folder-body { padding: 0.25rem 1rem 0.75rem 2rem; }
+  details.folder details.folder { margin-top: 0.4rem; background: #0d1421; }
+
+  .asset-row { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.75rem;
+    padding: 0.5rem 0; font-size: 0.85rem; }
+  .asset-row .name { color: #e2e8f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-family: 'JetBrains Mono', ui-monospace, monospace; }
+  .asset-row .meta { color: #64748b; font-size: 0.75rem; }
+  .asset-row.active { background: #152033; border-radius: 6px; }
+  .asset-row.active .name { color: #5bbcd6; }
+  .asset-row audio { height: 36px; width: 280px; }
+  .asset-row video { width: 360px; max-height: 480px; background: #000; border-radius: 6px; }
+  .asset-row img { max-width: 160px; max-height: 100px; border-radius: 4px; border: 1px solid #334155; }
+  .asset-row a.open-link { color: #5bbcd6; font-size: 0.82rem; text-decoration: none; padding: 0.3rem 0.7rem;
+    background: #0f172a; border: 1px solid #334155; border-radius: 6px; }
+  .asset-row a.open-link:hover { border-color: #5bbcd6; }
 </style>
 </head>
 <body>
@@ -106,11 +136,15 @@
   </div>
 </div>
 
-<!-- Rendered Videos Section -->
+<!-- Rendered Videos Section (auto-generated) -->
 <div class="section">
   <h2><span class="icon">🎬</span> Rendered Videos</h2>
-  <div class="subtitle">All rendered output from <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">out/&lt;project&gt;/</code> — organized per project.</div>
+  <div class="subtitle">Auto-discovered from <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">out/</code> — expand a folder and click a file to preview.</div>
 </div>
+<div class="browser" id="browser-videos"></div>
+
+<!-- hidden: old hardcoded video grid preserved below for reference -->
+<template id="legacy-videos">
 
 <div class="section" style="padding-bottom:0.5rem;">
   <h2 style="font-size:1.15rem;color:#5bbcd6;"><span class="icon">📂</span> out/showcase/</h2>
@@ -295,6 +329,9 @@
   </div>
 </div>
 
+</template>
+<!-- end legacy video grid -->
+
 <!-- Effects Library Section -->
 <div class="section">
   <h2><span class="icon">✨</span> Effect Primitives</h2>
@@ -316,35 +353,193 @@
   <div class="chip"><span class="fx-name">FilmGrain</span> — Overlay noise with blend mode</div>
 </div>
 
-<!-- Audio Assets Section -->
+<!-- Audio Assets Section (auto-generated) -->
 <div class="section">
   <h2><span class="icon">🔊</span> Audio Library</h2>
-  <div class="subtitle">Professional SFX, music tracks, and sound design assets in <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">public/audio/</code>.</div>
+  <div class="subtitle">Auto-discovered from <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">public/audio/</code> — expand a folder to browse, each clip has an inline player. Run <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">npm run portal</code> to refresh.</div>
+</div>
+<div class="browser">
+  <input id="audio-search" class="browser-search" type="search" placeholder="Filter audio by name (e.g. 'chime', 'pro-appear')" />
+  <div id="browser-audio"></div>
 </div>
 
-<div class="grid">
-  <div class="card" style="cursor:default;">
-    <h3>Music Tracks</h3>
-    <span class="tag">6 TRACKS</span>
-    <p>Synthwave, ambient electronic, neon waves, and more. Kevin MacLeod royalty-free + custom generated tracks.</p>
-  </div>
-
-  <div class="card" style="cursor:default;">
-    <h3>Professional SFX</h3>
-    <span class="tag">70+ SOUNDS</span>
-    <p>Categorized: typing, transitions, impacts, notifications, node sounds, and appear effects.</p>
-  </div>
-
-  <div class="card" style="cursor:default;">
-    <h3>Kenney Packs</h3>
-    <span class="tag">3 PACKS</span>
-    <p>Digital audio, interface sounds, and UI audio from Kenney.nl — open-license game audio assets.</p>
-  </div>
+<!-- Images Section (auto-generated) -->
+<div class="section">
+  <h2><span class="icon">🖼️</span> Images & Assets</h2>
+  <div class="subtitle">Auto-discovered from <code style="color:#5bbcd6;background:#0b0f14;padding:0.1rem 0.4rem;border-radius:4px;font-size:0.85rem;">public/assets/</code>.</div>
 </div>
+<div class="browser" id="browser-images"></div>
 
 <div class="footer">
-  <p>Remotion Studio · <code>npx remotion studio</code> to launch · <code>npx remotion render [id] out/file.mp4</code> to render</p>
+  <p>Remotion Studio · <code>npx remotion studio</code> to launch · <code>npx remotion render [id] out/file.mp4</code> to render · <code>npm run portal</code> to refresh asset manifest</p>
 </div>
+
+<script src="assets.js"></script>
+<script>
+(() => {
+  const A = window.STUDIO_ASSETS;
+  if (!A) return;
+
+  const fmtSize = (b) => b < 1024 ? `${b} B`
+    : b < 1024 * 1024 ? `${(b / 1024).toFixed(1)} KB`
+    : `${(b / (1024 * 1024)).toFixed(1)} MB`;
+
+  // Element helper
+  const el = (tag, attrs = {}, ...children) => {
+    const n = document.createElement(tag);
+    for (const [k, v] of Object.entries(attrs)) {
+      if (k === "class") n.className = v;
+      else if (k === "html") n.innerHTML = v;
+      else n.setAttribute(k, v);
+    }
+    for (const c of children) {
+      if (c == null) continue;
+      n.appendChild(typeof c === "string" ? document.createTextNode(c) : c);
+    }
+    return n;
+  };
+
+  const countFiles = (tree) => tree.reduce(
+    (n, node) => n + (node.type === "file" ? 1 : countFiles(node.children)),
+    0,
+  );
+
+  // rootPath: path prefix for href (e.g. "../public/audio" or "../out")
+  // mediaKind: "audio" | "video" | "image" — controls the inline preview
+  const renderTree = (tree, rootPath, mediaKind, depth = 0) => {
+    const frag = document.createDocumentFragment();
+    for (const node of tree) {
+      if (node.type === "dir") {
+        const count = countFiles(node.children);
+        const details = el("details", { class: "folder" });
+        // Open top-level folders by default, nested are collapsed
+        if (depth === 0) details.setAttribute("open", "");
+        const summary = el("summary", {},
+          el("span", { class: "arrow" }, "▶"),
+          node.name + "/",
+          el("span", { class: "count" }, `${count} file${count === 1 ? "" : "s"}`),
+        );
+        details.appendChild(summary);
+        const body = el("div", { class: "folder-body" });
+        body.appendChild(renderTree(node.children, rootPath, mediaKind, depth + 1));
+        details.appendChild(body);
+        frag.appendChild(details);
+      } else {
+        const href = `${rootPath}/${node.path}`;
+        const row = el("div", { class: "asset-row" });
+        row.dataset.name = node.name.toLowerCase();
+        const label = el("div", {},
+          el("div", { class: "name" }, node.name),
+          el("div", { class: "meta" }, fmtSize(node.size)),
+        );
+        row.appendChild(label);
+
+        if (mediaKind === "audio" && node.ext === "mp3") {
+          row.appendChild(el("audio", { controls: "", preload: "none", src: href }));
+        } else if (mediaKind === "video" && (node.ext === "mp4" || node.ext === "mov" || node.ext === "webm")) {
+          row.appendChild(el("video", { controls: "", preload: "none", src: href }));
+        } else if (mediaKind === "image" && ["png", "jpg", "jpeg", "svg", "webp", "gif"].includes(node.ext)) {
+          row.appendChild(el("img", { src: href, loading: "lazy", alt: node.name }));
+        } else {
+          row.appendChild(el("a", { href, target: "_blank", class: "open-link" }, "open"));
+        }
+        frag.appendChild(row);
+      }
+    }
+    return frag;
+  };
+
+  const audioMount = document.getElementById("browser-audio");
+  if (audioMount) audioMount.appendChild(renderTree(A.audio, "../public/audio", "audio"));
+
+  const videoMount = document.getElementById("browser-videos");
+  if (videoMount) videoMount.appendChild(renderTree(A.videos, "../out", "video"));
+
+  const imgMount = document.getElementById("browser-images");
+  if (imgMount) imgMount.appendChild(renderTree(A.images, "../public/assets", "image"));
+
+  // Update header stat counts
+  const stats = document.querySelectorAll(".stat");
+  if (stats.length >= 4) {
+    stats[1].querySelector(".stat-num").textContent = A.counts.videos;
+    stats[3].querySelector(".stat-num").textContent = A.counts.audio;
+  }
+
+  // Keyboard nav for audio browser: Down/Up steps through visible rows, Space plays the active row.
+  // Playing any audio/video auto-pauses all others.
+  const pauseOthers = (keep) => {
+    document.querySelectorAll("audio, video").forEach((m) => {
+      if (m !== keep && !m.paused) m.pause();
+    });
+  };
+  document.addEventListener("play", (e) => pauseOthers(e.target), true);
+
+  if (audioMount) {
+    let activeIdx = -1;
+    const getVisibleRows = () =>
+      Array.from(audioMount.querySelectorAll(".asset-row"))
+        .filter((r) => r.offsetParent !== null && r.style.display !== "none");
+
+    const setActive = (i) => {
+      const rows = getVisibleRows();
+      if (!rows.length) return;
+      const next = Math.max(0, Math.min(rows.length - 1, i));
+      rows.forEach((r) => r.classList.remove("active"));
+      rows[next].classList.add("active");
+      rows[next].scrollIntoView({ block: "center", behavior: "smooth" });
+      activeIdx = next;
+      return rows[next];
+    };
+
+    document.addEventListener("keydown", (e) => {
+      // Skip if user is typing in an input
+      if (e.target.matches("input, textarea")) return;
+      const rows = getVisibleRows();
+      if (!rows.length) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        setActive(activeIdx + 1);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        setActive(activeIdx - 1);
+      } else if (e.key === " " || e.code === "Space") {
+        e.preventDefault();
+        const row = activeIdx >= 0 ? rows[activeIdx] : setActive(0);
+        const media = row?.querySelector("audio, video");
+        if (!media) return;
+        if (media.paused) {
+          media.currentTime = 0;
+          media.play();
+        } else {
+          media.pause();
+        }
+      }
+    });
+  }
+
+  // Audio filter — hide rows whose name doesn't match, and collapse empty folders
+  const search = document.getElementById("audio-search");
+  if (search) {
+    const applyFilter = () => {
+      const q = search.value.trim().toLowerCase();
+      const rows = audioMount.querySelectorAll(".asset-row");
+      rows.forEach((r) => {
+        r.style.display = !q || r.dataset.name.includes(q) ? "" : "none";
+      });
+      // Show/hide folders based on whether they have any visible rows
+      const folders = audioMount.querySelectorAll("details.folder");
+      folders.forEach((f) => {
+        const anyVisible = Array.from(f.querySelectorAll(".asset-row"))
+          .some((r) => r.style.display !== "none");
+        f.style.display = anyVisible ? "" : "none";
+        if (q && anyVisible) f.setAttribute("open", "");
+      });
+    };
+    search.addEventListener("input", applyFilter);
+  }
+})();
+</script>
 
 </body>
 </html>
